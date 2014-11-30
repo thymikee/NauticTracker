@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity" >
+    <item android:id="@+id/menu_settings"
+        android:title="@string/menu_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    <item android:id="@+id/menu_maps"
+        android:title="@string/menu_maps" />
+    <item android:id="@+id/menu_about"
+        android:title="@string/menu_about" />
+    <item android:id="@+id/menu_saved_tracks"
+        android:title="@string/menu_saved_tracks" />
+</menu>
