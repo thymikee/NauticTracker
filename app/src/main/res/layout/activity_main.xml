@@ -69,16 +69,5 @@
         android:layout_gravity="center_horizontal|bottom"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
-
-    <!--<org.osmdroid.views.MapView-->
-    <!--android:id="@+id/mapview"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--tilesource="Mapnik"-->
-    <!--android:layout_toEndOf="@+id/textView"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:layout_alignParentLeft="true"-->
-    <!--android:layout_alignParentStart="true"-->
-    <!--android:layout_below="@+id/textView" />-->
-
+    
 </FrameLayout>
