@@ -1,6 +1,5 @@
 package com.thymikee.nautictracker;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -11,10 +10,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +24,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 
-import java.util.Map;
 import java.util.UUID;
 
 
@@ -261,8 +255,6 @@ public class MainActivity extends FragmentActivity {
         String longitude = intent.getStringExtra("longitude");
 
         if(latitude != null && longitude != null) {
-            Log.d(TAG, latitude);
-            Log.d(TAG, longitude);
             textLatitude.setText(latitude);
             textLongitude.setText(longitude);
         }
@@ -294,6 +286,7 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onStop() {
+        Log.d(TAG, "onStop");
         super.onStop();
         cancelAlarmManager();
     }
