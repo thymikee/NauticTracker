@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.ScaleBarOverlay;
 
 /**
  * Created by thymikee on 08.11.14.
@@ -40,6 +41,7 @@ public class MapActivity extends FragmentActivity {
             mapFragment = MapFragment.newInstance();
             fm.beginTransaction().add(R.id.map_container, mapFragment, MAP_FRAGMENT_TAG).commit();
         }
+
     }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -52,6 +54,7 @@ public class MapActivity extends FragmentActivity {
 
             GeoPoint geo = new GeoPoint(Double.parseDouble(latitude), Double.parseDouble(longitude));
             mapFragment.setCenter(geo);
+            mapFragment.addPointToPath(geo);
         }
     };
 

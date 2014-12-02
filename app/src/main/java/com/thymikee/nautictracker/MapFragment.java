@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -18,6 +19,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.ResourceProxyImpl;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MinimapOverlay;
+import org.osmdroid.views.overlay.PathOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
@@ -47,6 +49,7 @@ public class MapFragment extends Fragment {
     private MinimapOverlay mMinimapOverlay;
     private ScaleBarOverlay mScaleBarOverlay;
     private ResourceProxy mResourceProxy;
+    private PathOverlay mPathOverlay;
 
     public static MapFragment newInstance() {
         MapFragment fragment = new MapFragment();
@@ -61,15 +64,15 @@ public class MapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
+        mScaleBarOverlay = new ScaleBarOverlay(inflater.getContext(), mResourceProxy);
+        mPathOverlay = new PathOverlay(Color.RED, inflater.getContext());
         mMapView = new MapView(inflater.getContext(), 256, mResourceProxy);
 
-
         mMapView.setBuiltInZoomControls(true);
-        
-
-        // zoom to the netherlands
         mMapView.getController().setZoom(8);
         mMapView.getController().setCenter(new GeoPoint(51500000, 5400000));
+        mMapView.getOverlays().add(mScaleBarOverlay);
+        mMapView.getOverlays().add(mPathOverlay);
 
         // Add tiles layer
 //        mProvider = new MapTileProviderBasic(getApplicationContext());
@@ -85,5 +88,8 @@ public class MapFragment extends Fragment {
         mMapView.getController().setCenter(geoPoint);
     }
 
-
+    public void addPointToPath(GeoPoint geoPoint) {
+        Log.d(TAG, "point added");
+        mPathOverlay.addPoint(geoPoint);
+    }
 }

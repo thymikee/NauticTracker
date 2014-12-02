@@ -288,6 +288,6 @@ public class MainActivity extends FragmentActivity {
     protected void onStop() {
         Log.d(TAG, "onStop");
         super.onStop();
-        cancelAlarmManager();
+//        cancelAlarmManager();
     }
 }
