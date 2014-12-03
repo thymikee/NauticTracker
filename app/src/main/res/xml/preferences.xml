@@ -5,13 +5,6 @@
         android:summary="@string/pref1summary"
         android:title="@string/pref1title"/>
 
-    <RingtonePreference
-        android:key="ringtone"
-        android:showDefault="true"
-        android:showSilent="true"
-        android:summary="@string/pref2summary"
-        android:title="@string/pref2title"/>
-
     <EditTextPreference
         android:dialogTitle="@string/dialogtitle"
         android:key="text"
@@ -19,11 +12,11 @@
         android:title="@string/pref3title"/>
 
     <ListPreference
-        android:dialogTitle="@string/listdialogtitle"
-        android:entries="@array/cities"
-        android:entryValues="@array/airport_codes"
+        android:dialogTitle="@string/update_interval_title"
+        android:entries="@array/update_interval"
+        android:entryValues="@array/update_interval_in_secs"
         android:key="list"
-        android:summary="@string/pref4summary"
-        android:title="@string/pref4title"/>
+        android:summary="@string/choose_interval_summary"
+        android:title="@string/choose_interval"/>
 
 </PreferenceScreen>

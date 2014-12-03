@@ -31,6 +31,8 @@ import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.util.ArrayList;
+
 /**
  * Created by thymikee on 08.11.14.
  */
@@ -96,6 +98,8 @@ public class MapFragment extends Fragment {
             mMapZoom = 8;
             mMapCenter = new GeoPoint(51500000, 5400000);
         }
+
+
 
         mMapView.setBuiltInZoomControls(true);
         mMapView.getController().setZoom(mMapZoom);

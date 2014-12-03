@@ -9,6 +9,7 @@
     <string name="cancel">Cancel</string>
     <string name="settings">Settings</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod nisl vel dolor rhoncus tincidunt. Vestibulum interdum sollicitudin dictum. Fusce scelerisque lorem quis efficitur fermentum. Suspendisse vehicula molestie tincidunt. In varius luctus ipsum, at luctus dui. Fusce dignissim urna eu pretium aliquet. Curabitur blandit orci urna, non tincidunt odio vehicula in. Cras nec neque in ligula pharetra pellentesque. Etiam auctor libero turpis. Nulla at ex ac nibh suscipit varius. Vivamus ut leo sed tortor tempus maximus in pretium arcu. Ut in ultrices odio, a porta turpis. Etiam at faucibus diam. Praesent ornare quis ligula ut maximus.</string>
+    <string name="current_position">Current position</string>
 
     <!-- menu -->
     <string name="menu_settings">Settings</string>
@@ -21,7 +22,9 @@
     <string name="msg_location">Cannot use GPS without location service disabled. Do you want to go to settings menu to enable it?</string>
 
     <!-- select time interval -->
-    <string name="choose_interval">Choose GPS update interval</string>
+    <string name="choose_interval">GPS update interval</string>
+    <string name="choose_interval_summary">Choose time between calls for location update</string>
+    <string name="update_interval_title">Choose GPS update interval</string>
     <string-array name="update_interval">
         <item>5 sec</item>
         <item>10 sec</item>
@@ -32,33 +35,26 @@
         <item>15 minutes</item>
         <item>30 minutes</item>
     </string-array>
-    <string-array name="cities">
-        <item>Philadelphia</item>
-        <item>Pittsburgh</item>
-        <item>Allentown/Bethlehem</item>
-        <item>Erie</item>
-        <item>Reading</item>
-        <item>Scranton</item>
-        <item>Lancaster</item>
-        <item>Altoona</item>
-        <item>Harrisburg</item>
-    </string-array>
-    <string-array name="airport_codes">
-        <item>PHL</item>
-        <item>PIT</item>
-        <item>ABE</item>
-        <item>ERI</item>
-        <item>RDG</item>
-        <item>AVP</item>
-        <item>LNS</item>
-        <item>AOO</item>
-        <item>MDT</item>
+    <string-array name="update_interval_in_secs">
+        <item>5000</item>
+        <item>10000</item>
+        <item>30000</item>
+        <item>60000</item>
+        <item>120000</item>
+        <item>300000</item>
+        <item>900000</item>
+        <item>1800000</item>
     </string-array>
 
     <!-- buttons -->
     <string name="button_get_position">Get position</string>
     <string name="button_start">Start tracking</string>
     <string name="button_stop">Stop tracking</string>
+
+    <!-- textfields -->
+    <string name="text_accuracy">Accuracy</string>
+
+
 
     <!-- Google Play Services -->
     <string name="google_play_services_unavailable">Google Play Services are unavailable</string>

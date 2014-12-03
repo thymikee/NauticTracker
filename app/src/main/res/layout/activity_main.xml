@@ -10,64 +10,85 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <LinearLayout
-            android:id="@+id/spinner_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TextView
-                android:text="@string/choose_interval"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView" />
-
-            <Spinner
-                android:id="@+id/spinner_interval"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/update_interval"
-                android:prompt="@string/choose_interval" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/stats"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:orientation="horizontal"
-            android:textAlignment="center">
-
-            <TextView
-                android:id="@+id/text_latitude"
-                android:text="0.0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="10pt"/>
-
-            <TextView
-                android:id="@+id/text_longitude"
-                android:text="0.0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_start"
         android:id="@+id/button1"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_gravity="center_horizontal|bottom" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:orientation="vertical"
+            android:layout_gravity="left|top">
+
+            <TextView
+                android:text="@string/current_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView" />
+
+            <LinearLayout
+                android:id="@+id/position"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/val_latitude"
+                    android:text="0.0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10pt"/>
+
+                <TextView
+                    android:id="@+id/val_longitude"
+                    android:text="0.0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="121dp"
+            android:layout_height="49dp"
+            android:orientation="vertical"
+            android:layout_gravity="left|bottom">
+
+            <TextView
+                android:text="@string/text_accuracy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_accuracy" />
+
+            <LinearLayout
+                android:id="@+id/accuracy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/val_accuracy"
+                    android:text="0.0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10pt"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>

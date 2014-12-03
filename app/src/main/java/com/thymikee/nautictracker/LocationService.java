@@ -57,6 +57,9 @@ public class LocationService extends Service implements
             intent.putExtra("latitude", String.valueOf(location.getLatitude()));
             intent.putExtra("longitude", String.valueOf(location.getLongitude()));
             intent.putExtra("accuracy", String.valueOf(location.getAccuracy()));
+
+            intent.putExtra("latitude_in_seconds", String.valueOf(Location.convert(location.getLatitude(), Location.FORMAT_SECONDS)));
+            intent.putExtra("longitude_in_seconds", String.valueOf(Location.convert(location.getLongitude(), Location.FORMAT_SECONDS)));
             sendBroadcast(intent);
         }
 

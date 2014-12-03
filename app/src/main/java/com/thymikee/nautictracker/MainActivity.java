@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,9 +42,9 @@ public class MainActivity extends FragmentActivity {
     private Intent trackerIntent;
     private Intent intent;
     private PendingIntent pendingIntent;
-    private Spinner updateInterval;
     private TextView textLatitude;
     private TextView textLongitude;
+    private TextView textAccuracy;
     private LocationService locationService;
     private LocationClient mLocationClient;
 
@@ -57,9 +56,9 @@ public class MainActivity extends FragmentActivity {
         intent = new Intent(this, LocationService.class);
 
         trackingButton = (Button) findViewById(R.id.button1);
-        textLatitude = (TextView) findViewById(R.id.text_latitude);
-        textLongitude = (TextView) findViewById(R.id.text_longitude);
-        updateInterval = (Spinner) findViewById(R.id.spinner_interval);
+        textLatitude = (TextView) findViewById(R.id.val_latitude);
+        textLongitude = (TextView) findViewById(R.id.val_longitude);
+        textAccuracy = (TextView) findViewById(R.id.val_accuracy);
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("com.thymikee.nautictracker.prefs", Context.MODE_PRIVATE);
         currentlyTracking = sharedPreferences.getBoolean("currentlyTracking", false);
@@ -110,29 +109,6 @@ public class MainActivity extends FragmentActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void saveInterval() {
-        if (currentlyTracking) {
-//            Toast.makeText(getApplicationContext(), R.string.user_needs_to_restart_tracking, Toast.LENGTH_LONG).show();
-        }
-
-        SharedPreferences sharedPreferences = this.getSharedPreferences("com.thymikee.nautictracker.prefs", Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        updateInterval.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                Object item = parent.getItemAtPosition(pos);
-                Log.d(TAG, item.toString());
-                editor.putString("interval", item.toString());
-            }
-
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        editor.apply();
     }
 
     private void startAlarmManager() {
@@ -199,20 +175,6 @@ public class MainActivity extends FragmentActivity {
         SharedPreferences sharedPreferences = this.getSharedPreferences("com.thymikee.nautictracker.prefs", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        updateInterval.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                Object item = parent.getItemAtPosition(pos);
-                Log.d(TAG, item.toString());
-                editor.putString("interval", item.toString());
-            }
-
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        editor.apply();
-
         return true;
     }
 
@@ -253,10 +215,12 @@ public class MainActivity extends FragmentActivity {
     private void updateUI(Intent intent) {
         String latitude = intent.getStringExtra("latitude");
         String longitude = intent.getStringExtra("longitude");
+        String accuracy = intent.getStringExtra("accuracy");
 
-        if(latitude != null && longitude != null) {
+        if(latitude != null && longitude != null && accuracy != null) {
             textLatitude.setText(latitude);
             textLongitude.setText(longitude);
+            textAccuracy.setText(accuracy + " m");
         }
     }
 
