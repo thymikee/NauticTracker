@@ -1,5 +1,6 @@
 package com.thymikee.nautictracker;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
@@ -12,6 +13,7 @@ import java.util.List;
 
 
 public class SettingsActivity extends PreferenceActivity {
+
     @Override
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.preference_headers, target);
@@ -28,10 +30,11 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
     public static class First extends PreferenceFragment {
+        private String TAG = "SettingsActivity$First";
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
             addPreferencesFromResource(R.xml.preferences);
         }
     }
@@ -43,5 +46,10 @@ public class SettingsActivity extends PreferenceActivity {
 
             addPreferencesFromResource(R.xml.preferences);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

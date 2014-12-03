@@ -99,8 +99,6 @@ public class MapFragment extends Fragment {
             mMapCenter = new GeoPoint(51500000, 5400000);
         }
 
-
-
         mMapView.setBuiltInZoomControls(true);
         mMapView.getController().setZoom(mMapZoom);
         mMapView.getController().setCenter(mMapCenter);

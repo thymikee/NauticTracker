@@ -1,7 +1,9 @@
 package com.thymikee.nautictracker;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,7 +46,6 @@ public class LocationService extends Service implements
     private Runnable sendUpdatesToUI = new Runnable() {
         public void run() {
             displayLocationInfo();
-//            handler.postDelayed(this, 5000); // 5 seconds
         }
     };
 
@@ -123,7 +124,6 @@ public class LocationService extends Service implements
     public void onLocationChanged(Location location) {
         if (location != null) {
             this.location = location;
-//            Log.e(TAG, "position: " + location.getLatitude() + ", " + location.getLongitude() + " accuracy: " + location.getAccuracy());
 
             // we have our desired accuracy of 500 meters so lets quit this service,
             // onDestroy will be called and stop our location uodates
@@ -149,9 +149,11 @@ public class LocationService extends Service implements
     @Override
     public void onConnected(Bundle bundle) {
         Log.d(TAG, "onConnected");
+        SharedPreferences sharedPreferences = this.getSharedPreferences("com.thymikee.nautictracker.prefs", Context.MODE_PRIVATE);
+        int updateInterval = Integer.parseInt(sharedPreferences.getString("update_interval", "3000"));
 
         locationRequest = LocationRequest.create();
-        locationRequest.setInterval(1000); // milliseconds
+        locationRequest.setInterval(updateInterval); // milliseconds
         locationRequest.setFastestInterval(1000); // the fastest rate in milliseconds at which your app can handle location updates
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 

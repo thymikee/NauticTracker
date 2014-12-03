@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -47,6 +48,10 @@ public class MainActivity extends FragmentActivity {
     private TextView textAccuracy;
     private LocationService locationService;
     private LocationClient mLocationClient;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences prefs;
+    private SharedPreferences.OnSharedPreferenceChangeListener listener;
+    private int updateInterval;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,20 +65,27 @@ public class MainActivity extends FragmentActivity {
         textLongitude = (TextView) findViewById(R.id.val_longitude);
         textAccuracy = (TextView) findViewById(R.id.val_accuracy);
 
-        SharedPreferences sharedPreferences = this.getSharedPreferences("com.thymikee.nautictracker.prefs", Context.MODE_PRIVATE);
+        sharedPreferences = this.getSharedPreferences("com.thymikee.nautictracker.prefs", Context.MODE_PRIVATE);
+        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
         currentlyTracking = sharedPreferences.getBoolean("currentlyTracking", false);
-
-        boolean firstTimeLoadindApp = sharedPreferences.getBoolean("firstTimeLoadindApp", true);
-
-        if (firstTimeLoadindApp) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("firstTimeLoadindApp", false);
-            editor.putString("appID",  UUID.randomUUID().toString());
-            editor.apply();
-        }
-
         locationService = new LocationService();
         mLocationClient = locationService.getLocationClient();
+
+        updateInterval = Integer.parseInt(prefs.getString("update_interval", "8000"));
+
+        listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+                if (key.equals("update_interval")) {
+                    updateInterval = Integer.parseInt(prefs.getString(key, "8000"));
+                    Log.d(TAG, "update changed " + Integer.toString(updateInterval));
+                    if(currentlyTracking) {
+                        cancelAlarmManager();
+                        startAlarmManager(updateInterval);
+                    }
+                }
+            }
+        };
 
         trackingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +93,8 @@ public class MainActivity extends FragmentActivity {
                 trackLocation(view);
             }
         });
+
+        prefs.registerOnSharedPreferenceChangeListener(listener);
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().commit();
@@ -111,22 +125,22 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    private void startAlarmManager() {
+    public void startAlarmManager(int updateInterval) {
         Log.d(TAG, "startAlarmManager");
 
         Context context = getBaseContext();
         alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         trackerIntent = new Intent(context, AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(context, 0, trackerIntent, 0);
-
+        Log.d(TAG, Integer.toString(updateInterval));
         alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime(),
-                8000, // 60000 = 1 minute
+                updateInterval,
                 pendingIntent);
 
     }
 
-    private void cancelAlarmManager() {
+    public void cancelAlarmManager() {
         Log.d(TAG, "cancelAlarmManager");
 
         Context context = getBaseContext();
@@ -157,7 +171,7 @@ public class MainActivity extends FragmentActivity {
             editor.putBoolean("currentlyTracking", false);
             editor.putString("sessionID", "");
         } else {
-            startAlarmManager();
+            startAlarmManager(updateInterval);
 
             currentlyTracking = true;
             editor.putBoolean("currentlyTracking", true);

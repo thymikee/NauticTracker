@@ -15,7 +15,7 @@
         android:dialogTitle="@string/update_interval_title"
         android:entries="@array/update_interval"
         android:entryValues="@array/update_interval_in_secs"
-        android:key="list"
+        android:key="update_interval"
         android:summary="@string/choose_interval_summary"
         android:title="@string/choose_interval"/>
 
