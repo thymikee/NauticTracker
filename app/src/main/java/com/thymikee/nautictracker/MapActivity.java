@@ -31,6 +31,7 @@ public class MapActivity extends FragmentActivity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_map);
 
@@ -49,12 +50,12 @@ public class MapActivity extends FragmentActivity {
         public void onReceive(Context context, Intent intent) {
             String latitude = intent.getStringExtra("latitude");
             String longitude = intent.getStringExtra("longitude");
-
             Log.e(TAG, latitude + " " + longitude);
-
             GeoPoint geo = new GeoPoint(Double.parseDouble(latitude), Double.parseDouble(longitude));
-            mapFragment.setCenter(geo);
-            mapFragment.addPointToPath(geo);
+            if (mapFragment != null) {
+                mapFragment.setCenter(geo);
+                mapFragment.addPointToPath(geo);
+            }
         }
     };
 

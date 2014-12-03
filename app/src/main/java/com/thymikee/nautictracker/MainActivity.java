@@ -274,6 +274,7 @@ public class MainActivity extends FragmentActivity {
         startService(intent);
         registerReceiver(broadcastReceiver,
                 new IntentFilter(LocationService.BROADCAST_ACTION));
+        setTrackingButtonState();
     }
 
     @Override
