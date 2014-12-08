@@ -74,4 +74,14 @@ public class MapActivity extends FragmentActivity {
         unregisterReceiver(broadcastReceiver);
         stopService(intent);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
 }

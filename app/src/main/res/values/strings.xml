@@ -82,4 +82,7 @@
     <string name="listdialogtitle">Choose a Pennsylvania city</string>
     <string name="dialogtitle">Enter something useful</string>
 
+    <!-- Notifications -->
+    <string name="notification_text">Tracking is on.</string>
+
 </resources>

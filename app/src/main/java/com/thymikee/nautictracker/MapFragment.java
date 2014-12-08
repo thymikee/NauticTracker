@@ -94,14 +94,15 @@ public class MapFragment extends Fragment {
         pPaint.setStrokeWidth(40);
         mPathOverlay.setPaint(pPaint);
 
-        if (mMapZoom == 0 && mMapCenter == null) {
+        if (savedInstanceState == null) {
+            Log.d(TAG, "instance null");
             mMapZoom = 8;
             mMapCenter = new GeoPoint(51500000, 5400000);
+            mMapView.getController().setZoom(mMapZoom);
+            mMapView.getController().setCenter(mMapCenter);
         }
 
         mMapView.setBuiltInZoomControls(true);
-        mMapView.getController().setZoom(mMapZoom);
-        mMapView.getController().setCenter(mMapCenter);
         mMapView.getOverlays().add(mScaleBarOverlay);
         mMapView.getOverlays().add(mPathOverlay);
         mMapView.getOverlays().add(mMinimapOverlay);
@@ -122,9 +123,20 @@ public class MapFragment extends Fragment {
 //        mProvider = new MapTileProviderBasic(getApplicationContext());
 //        mProvider.setTileSource(TileSourceFactory.FIETS_OVERLAY_NL);
 //        this.mTilesOverlay = new TilesOverlay(mProvider, this.getBaseContext());
-//        mMapView.getOverlays().add(this.mTilesOverlay);
+//        mMapView.getOverlays().add(this.mTilesOverlay);\
 
         return mMapView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        Log.d(TAG, "activity created");
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            Log.d(TAG, "activity created: " + Boolean.toString(savedInstanceState.containsKey("map_zoom")));
+            mMapView.getController().setZoom(savedInstanceState.getInt("map_zoom"));
+            mMapView.getController().setCenter((GeoPoint)savedInstanceState.getSerializable("map_center"));
+        }
     }
 
     public void setCenter(GeoPoint geoPoint) {
@@ -141,13 +153,12 @@ public class MapFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        restoreMapState();
+//        restoreMapState();
     }
 
     @Override
@@ -158,9 +169,10 @@ public class MapFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG, "onSaveInstanceState");
         super.onSaveInstanceState(outState);
-//        outState.putSerializable("center", mMapCenter);
-//        outState.putSerializable("zoom", mMapZoom);
+        outState.putSerializable("map_center", mMapCenter);
+        outState.putInt("map_zoom", mMapZoom);
     }
 
     private void restoreMapState() {

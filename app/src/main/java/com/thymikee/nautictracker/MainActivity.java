@@ -1,6 +1,8 @@
 package com.thymikee.nautictracker;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,7 +41,6 @@ public class MainActivity extends FragmentActivity {
     private static Button trackingButton;
 
     private boolean currentlyTracking;
-    private int intervalInMinutes = 1;
     private AlarmManager alarmManager;
     private Intent trackerIntent;
     private Intent intent;
@@ -52,6 +54,9 @@ public class MainActivity extends FragmentActivity {
     private SharedPreferences prefs;
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
     private int updateInterval;
+
+    private static final int NOTIFY_ID = 1;
+    private NotificationManager notificationManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -138,6 +143,19 @@ public class MainActivity extends FragmentActivity {
                 updateInterval,
                 pendingIntent);
 
+
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        int icon = R.drawable.ic_launcher;
+        String contentTitle = getResources().getString(R.string.app_name);
+        String contentText = getResources().getString(R.string.notification_text);
+
+        NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(context)
+                .setContentTitle(contentTitle)
+                .setContentText(contentText)
+                .setSmallIcon(icon);
+
+        notificationManager.notify(NOTIFY_ID, mNotifyBuilder.build());
+
     }
 
     public void cancelAlarmManager() {
@@ -149,6 +167,7 @@ public class MainActivity extends FragmentActivity {
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
         locationService.stopLocationUpdates();
+        notificationManager.cancel(NOTIFY_ID);
     }
 
 
@@ -192,13 +211,7 @@ public class MainActivity extends FragmentActivity {
         return true;
     }
 
-    private void displayUserSettings() {
-        SharedPreferences sharedPreferences = this.getSharedPreferences("com.thymikee.nautictracker.prefs", Context.MODE_PRIVATE);
-        intervalInMinutes = sharedPreferences.getInt("interval", 1);
 
-//        updateInterval.setSelected(intervalInMinutes);
-
-    }
 
     private boolean checkIfGooglePlayEnabled() {
         if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS) {
@@ -248,7 +261,6 @@ public class MainActivity extends FragmentActivity {
         Log.d(TAG, "onResume");
         super.onResume();
 
-        displayUserSettings();
         startService(intent);
         registerReceiver(broadcastReceiver,
                 new IntentFilter(LocationService.BROADCAST_ACTION));

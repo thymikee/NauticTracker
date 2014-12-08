@@ -34,7 +34,8 @@
         </activity>
         <activity
             android:name=".MapActivity"
-            android:label="@string/menu_maps" >
+            android:label="@string/menu_maps"
+            android:configChanges="orientation|screenSize" >
 
         </activity>
         <!--<receiver android:name=".GpsTrackerBootReceiver">-->
