@@ -62,6 +62,7 @@ public class MapFragment extends Fragment {
     private CameraPosition cp;
     private Bundle bundle;
     private GeoPoint mMapCenter;
+    private ArrayList<GeoPoint> routePoints;
     private int mMapZoom;
 
     public static MapFragment newInstance() {
@@ -147,6 +148,7 @@ public class MapFragment extends Fragment {
 
     public void addPointToPath(GeoPoint geoPoint) {
         Log.d(TAG, "point added");
+//        routePoints.add(geoPoint);
         mPathOverlay.addPoint(geoPoint);
     }
 

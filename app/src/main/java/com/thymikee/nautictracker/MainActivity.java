@@ -1,7 +1,6 @@
 package com.thymikee.nautictracker;
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -9,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -18,8 +18,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,8 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 
 import java.util.UUID;
+
+import me.alexrs.wavedrawable.WaveDrawable;
 
 
 public class MainActivity extends FragmentActivity {
@@ -57,6 +61,8 @@ public class MainActivity extends FragmentActivity {
 
     private static final int NOTIFY_ID = 1;
     private NotificationManager notificationManager;
+
+    private WaveDrawable waveDrawable;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -167,7 +173,25 @@ public class MainActivity extends FragmentActivity {
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
         locationService.stopLocationUpdates();
-        notificationManager.cancel(NOTIFY_ID);
+        if(notificationManager != null) {
+            notificationManager.cancel(NOTIFY_ID);
+        }
+
+    }
+
+    private void startWaveAnimation() {
+        ImageView imageView = (ImageView) findViewById(R.id.wave);
+        waveDrawable = new WaveDrawable(Color.parseColor("#9e0c0c"), 200);
+        imageView.setBackground(waveDrawable);
+
+        Interpolator interpolator = new AccelerateDecelerateInterpolator();
+        waveDrawable.setWaveInterpolator(interpolator);
+        waveDrawable.startAnimation();
+    }
+
+    private void stopWaveAnimation(WaveDrawable waveDrawable) {
+        if(waveDrawable == null) { return; }
+        waveDrawable.stopAnimation();
     }
 
 
@@ -185,12 +209,14 @@ public class MainActivity extends FragmentActivity {
 
         if (currentlyTracking) {
             cancelAlarmManager();
+            stopWaveAnimation(waveDrawable);
 
             currentlyTracking = false;
             editor.putBoolean("currentlyTracking", false);
             editor.putString("sessionID", "");
         } else {
             startAlarmManager(updateInterval);
+            startWaveAnimation();
 
             currentlyTracking = true;
             editor.putBoolean("currentlyTracking", true);
@@ -261,10 +287,13 @@ public class MainActivity extends FragmentActivity {
         Log.d(TAG, "onResume");
         super.onResume();
 
-        startService(intent);
+//        startService(intent);
         registerReceiver(broadcastReceiver,
                 new IntentFilter(LocationService.BROADCAST_ACTION));
         setTrackingButtonState();
+        if(waveDrawable != null && !waveDrawable.isAnimationRunning()) {
+            startWaveAnimation();
+        }
     }
 
     @Override
@@ -272,7 +301,8 @@ public class MainActivity extends FragmentActivity {
         Log.d(TAG, "onPause");
         super.onPause();
         unregisterReceiver(broadcastReceiver);
-        stopService(intent);
+        stopWaveAnimation(waveDrawable);
+       // stopService(intent);
     }
 
     @Override

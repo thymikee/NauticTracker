@@ -35,7 +35,6 @@ public class LocationService extends Service implements
     private Location location;
     private final Handler handler = new Handler();
     Intent intent;
-    int counter;
 
     public static final String BROADCAST_ACTION = "com.thymikee.nautictracker.displayevent";
 
@@ -43,26 +42,30 @@ public class LocationService extends Service implements
         return locationClient;
     }
 
-    private Runnable sendUpdatesToUI = new Runnable() {
+    private Runnable sendUpdates = new Runnable() {
         public void run() {
-            displayLocationInfo();
+            updateUI();
+            updateDB();
         }
     };
 
-    private void displayLocationInfo() {
+    private void updateUI() {
         Log.d(TAG, "entered DisplayLoggingInfo");
 
-        if (location != null) {
-            Log.e(TAG, "Display position: " + location.getLatitude() + ", " + location.getLongitude() + " accuracy: " + location.getAccuracy());
+        if (location == null) { return; }
 
-            intent.putExtra("latitude", String.valueOf(location.getLatitude()));
-            intent.putExtra("longitude", String.valueOf(location.getLongitude()));
-            intent.putExtra("accuracy", String.valueOf(location.getAccuracy()));
+        Log.e(TAG, "Display position: " + location.getLatitude() + ", " + location.getLongitude() + " accuracy: " + location.getAccuracy());
+//intent.putExtra()
+        // TODO Parcelable
+        intent.putExtra("latitude", String.valueOf(location.getLatitude()));
+        intent.putExtra("longitude", String.valueOf(location.getLongitude()));
+        intent.putExtra("accuracy", String.valueOf(location.getAccuracy()));
+        intent.putExtra("speed", String.valueOf(location.getSpeed()));
 
-            intent.putExtra("latitude_in_seconds", String.valueOf(Location.convert(location.getLatitude(), Location.FORMAT_SECONDS)));
-            intent.putExtra("longitude_in_seconds", String.valueOf(Location.convert(location.getLongitude(), Location.FORMAT_SECONDS)));
-            sendBroadcast(intent);
-        }
+        intent.putExtra("latitude_in_seconds", String.valueOf(Location.convert(location.getLatitude(), Location.FORMAT_SECONDS)));
+        intent.putExtra("longitude_in_seconds", String.valueOf(Location.convert(location.getLongitude(), Location.FORMAT_SECONDS)));
+        sendBroadcast(intent);
+
 
 
             // we have our desired accuracy of 500 meters so lets quit this service,
@@ -72,6 +75,12 @@ public class LocationService extends Service implements
 //            }
 
 
+    }
+
+    private void updateDB() {
+        if (location == null) { return; }
+
+//        TripRepository.getById(getBaseContext(), 1);
     }
 
     @Override
@@ -85,8 +94,8 @@ public class LocationService extends Service implements
         // if we are currently trying to get a location and the alarm manager has called this again,
         // no need to start processing a new location.
         Log.d(TAG, "Start");
-        handler.removeCallbacks(sendUpdatesToUI);
-        handler.postDelayed(sendUpdatesToUI, 1000); // 1 second
+        handler.removeCallbacks(sendUpdates);
+        handler.postDelayed(sendUpdates, 1000); // 1 second
 
         if (!currentlyProcessingLocation) {
             currentlyProcessingLocation = true;

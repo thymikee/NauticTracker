@@ -8,11 +8,22 @@ public class MyDaoGenerator {
 
     public static void main(String args[]) throws Exception {
         Schema schema = new Schema(3, "nautictracker");
-        Entity box = schema.addEntity("Box");
-        box.addIdProperty();
-        box.addStringProperty("name");
-        box.addIntProperty("slots");
-        box.addStringProperty("description");
+
+        /* Trip entity */
+        Entity trip = schema.addEntity("Trip");
+        trip.addIdProperty();
+        trip.addLongProperty("remote_id");
+        trip.addStringProperty("title");
+        trip.addBooleanProperty("saved");
+
+        /* TrackPoint entity */
+        Entity trackPoint = schema.addEntity("TrackPoint");
+        trackPoint.addLongProperty("trip_id").primaryKey();
+        trackPoint.addStringProperty("latitude");
+        trackPoint.addStringProperty("longitude");
+        trackPoint.addDateProperty("timestamp");
+        trackPoint.addLongProperty("sequence");
+
         new DaoGenerator().generateAll(schema, args[0]);
     }
 }

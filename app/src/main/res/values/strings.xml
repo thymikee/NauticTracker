@@ -53,6 +53,7 @@
 
     <!-- textfields -->
     <string name="text_accuracy">Accuracy</string>
+    <string name="text_speed">Speed</string>
 
 
 

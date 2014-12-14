@@ -12,17 +12,17 @@ import android.util.Log;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 
+import java.util.ArrayList;
+
 /**
  * Created by thymikee on 08.11.14.
  */
 public class MapActivity extends FragmentActivity {
 
     private static final String TAG = "MapActivity";
-    private static final int DIALOG_ABOUT_ID = 1;
     private static final String MAP_FRAGMENT_TAG = "org.osmdroid.MAP_FRAGMENT_TAG";
 
     private MapFragment mapFragment;
-
     private Intent intent;
 
     // ===========================================================
