@@ -14,7 +14,7 @@
     <!-- menu -->
     <string name="menu_settings">Settings</string>
     <string name="menu_maps">Maps</string>
-    <string name="menu_saved_tracks">Saved Tracks</string>
+    <string name="menu_trips">Trips</string>
     <string name="menu_about">About</string>
 
     <!-- messages -->

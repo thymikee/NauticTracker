@@ -1,4 +1,4 @@
-package com.thymikee.nautictracker;
+package com.thymikee.nautictracker.services;
 
 import android.app.Service;
 import android.content.Context;

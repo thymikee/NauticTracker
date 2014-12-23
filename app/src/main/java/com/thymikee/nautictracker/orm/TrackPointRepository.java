@@ -1,6 +1,8 @@
-package com.thymikee.nautictracker;
+package com.thymikee.nautictracker.orm;
 
 import android.content.Context;
+
+import com.thymikee.nautictracker.NauticTrackerApplication;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.thymikee.nautictracker;
+package com.thymikee.nautictracker.activities;
 
 import android.app.AlarmManager;
 import android.app.NotificationManager;
@@ -28,6 +28,9 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
+import com.thymikee.nautictracker.AlarmReceiver;
+import com.thymikee.nautictracker.services.LocationService;
+import com.thymikee.nautictracker.R;
 
 import java.util.UUID;
 
@@ -131,6 +134,10 @@ public class MainActivity extends FragmentActivity {
                 return true;
             case R.id.menu_maps:
                 startActivity(new Intent(this, MapActivity.class));
+                return true;
+            case R.id.menu_trips:
+                startActivity(new Intent(this, TripsActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

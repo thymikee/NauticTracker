@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
+import com.thymikee.nautictracker.services.LocationService;
+
 public class AlarmReceiver extends WakefulBroadcastReceiver {
     private static final String TAG = "AlarmReceiver";
     @Override

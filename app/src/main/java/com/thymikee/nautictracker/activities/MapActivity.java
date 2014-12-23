@@ -1,4 +1,4 @@
-package com.thymikee.nautictracker;
+package com.thymikee.nautictracker.activities;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,10 +9,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.ScaleBarOverlay;
+import com.thymikee.nautictracker.services.LocationService;
+import com.thymikee.nautictracker.fragments.MapFragment;
+import com.thymikee.nautictracker.R;
 
-import java.util.ArrayList;
+import org.osmdroid.util.GeoPoint;
 
 /**
  * Created by thymikee on 08.11.14.
